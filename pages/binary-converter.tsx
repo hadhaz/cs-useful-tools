@@ -38,13 +38,16 @@ export default function BinaryConverter() {
   const answerDecimal = "Hasil desimal";
 
   return (
-    <div style={{ minHeight: clearence }} className='bg-teal-400 pt-12 flex flex-col items-center'>
+    <div
+      style={{ minHeight: clearence }}
+      className='bg-teal-400 pt-12 flex flex-col items-center'
+    >
       <h1 className='text-center text-2xl font-semibold mb-8'>
         Binary Converter
       </h1>
       <div className='flex justify-center'>
         <form
-          className='grid grid-cols-2 gap-x-2 w-full max-w-[800px] mx-3'
+          className='grid grid-cols-2 gap-x-2 w-full lg:w-[800px] mx-3'
           onSubmit={submitHandler}
         >
           <div className='flex flex-col'>
@@ -85,7 +88,8 @@ const converter = (input: string, type: string) => {
     return { binary, decimal };
   } else {
     const decimal = parseInt(input);
-    const binary = decimal.toString(2);
+    const temp = decimal.toString(2);
+    const binary = temp.replace(/(.{8})/g, "$1.");
     return { binary, decimal };
   }
 };
