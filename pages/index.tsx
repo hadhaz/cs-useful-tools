@@ -1,21 +1,8 @@
 import Link from "next/link";
 import useMinHeight from "../core/hooks/useMinHeight";
+import data from "../core/data/app-list.json";
 
 import Seo from "../core/components/SEO";
-const data = [
-  {
-    name: "subnet-calculator",
-    title: "Subnet Calculator",
-    url: "/subnet-calculator",
-    id: "CALC1",
-  },
-  {
-    name: "binary-converter",
-    title: "Binary Converter",
-    url: "/binary-converter",
-    id: "CONV1",
-  },
-];
 
 export default function Home() {
   const [clearence, upper, lower] = useMinHeight();

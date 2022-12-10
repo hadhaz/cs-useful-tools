@@ -41,7 +41,7 @@ export default function BinaryConverter() {
   return (
     <>
       <Seo typeInput='converter' />
-      <div style={{ minHeight: clearence }} className='bg-teal-400 pt-12'>
+      <div style={{ minHeight: clearence }} className='bg-teal-400 pt-12 flex flex-col'>
         <h1 className='text-center text-2xl font-semibold mb-8'>
           Binary Converter
         </h1>
