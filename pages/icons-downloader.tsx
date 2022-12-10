@@ -27,6 +27,11 @@ export default function IconsDownloader() {
       return;
     }
 
+    if (sizeRef.current!.value === "") {
+      setInputValidity(false);
+      return;
+    }
+
     const type = isSVG ? "svg" : "png";
     const { id, name } = parseLink(link);
     const url = `${base_api}?id=${id}&svg=true`;
@@ -63,7 +68,7 @@ export default function IconsDownloader() {
     setUrl(urlObj);
 
     if (data.success) {
-      console.log(svgStr);
+      console.log('Converted! Click the "download here" in that site.');
     } else {
       console.log(data.error);
     }
