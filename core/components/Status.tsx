@@ -1,9 +1,19 @@
-export default function Status(props: { validity: boolean | null }) {
+export default function Status(props: {
+  validity: boolean | null;
+  message: string | null;
+}) {
   const statusColor = props.validity
     ? "bg-green-400 text-slate-900"
     : "bg-red-500 text-slate-100";
 
   if (props.validity === null) return null;
+
+  const msg =
+    props.message !== "" && props.message !== null
+      ? props.message
+      : props.validity
+      ? "Success"
+      : "Invalid Input";
 
   return (
     <div
@@ -12,7 +22,7 @@ export default function Status(props: { validity: boolean | null }) {
         statusColor,
       ].join(" ")}
     >
-      {props.validity ? "Success" : "Invalid Input"}
+      {msg}
     </div>
   );
 }

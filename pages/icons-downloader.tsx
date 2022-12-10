@@ -2,12 +2,15 @@ import { useRef, useState } from "react";
 import BackHome from "../core/components/BackHome";
 import Status from "../core/components/Status";
 import useMinHeight from "../core/hooks/useMinHeight";
+import { motion } from "framer-motion";
 
 export default function IconsDownloader() {
   const [clearence, upper, lower] = useMinHeight();
   const [isSVG, setIsSVG] = useState<boolean>(false);
   const [inputValidity, setInputValidity] = useState<boolean | null>(null);
   const [url, setUrl] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const linkRef = useRef<HTMLInputElement>(null);
   const sizeRef = useRef<HTMLInputElement>(null);
 
@@ -24,22 +27,27 @@ export default function IconsDownloader() {
 
     if (!validateLink(link)) {
       setInputValidity(false);
-      console.log(
+      setError(
         'Please fill valid link. Example: "https://icons8.com/icon/63370/bonds"'
       );
       return;
     }
 
-    if (sizeRef.current!.value === "") {
+    const size = parseInt(sizeRef.current!.value);
+
+    if (sizeRef.current!.value === "" || size < 16 || size > 512) {
       setInputValidity(false);
-      console.log('Please fill the "size" field.');
+      setError(
+        'Please fill the "size" minimum value is 16px and maximum is 512px.'
+      );
       return;
     }
 
     const type = isSVG ? "svg" : "png";
-    const { id, name } = parseLink(link);
+    const { id } = parseLink(link);
     const url = `${base_api}?id=${id}&svg=true`;
 
+    setLoading(true);
     const result = await fetch(url);
     const data = await result.json();
 
@@ -74,6 +82,8 @@ export default function IconsDownloader() {
     } else {
       console.log(data.error);
     }
+
+    setLoading(false);
   }
 
   function optionHandler(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -88,18 +98,35 @@ export default function IconsDownloader() {
   function resetUrl() {
     setUrl("");
     setInputValidity(null);
+    setError("");
   }
 
   return (
     <>
-      <Status validity={inputValidity} />
-      <div style={{ minHeight: clearence }} className='bg-slate-400'>
+      { loading && 
+        <motion.div
+          className='w-44 h-44 border-8 left-1/2 fixed z-50 top-1/2 rounded-full border-dotted border-blue-500'
+          animate={{
+            rotate: 360,
+            borderColor: ["#3B82F6", "#F87171"],
+            x: "-50%",
+            y: "-50%",
+          }}
+          initial={{ rotate: 0, x: "-50%", y: "-50%" }}
+          transition={{ duration: 5, repeat: Infinity }}
+        ></motion.div>
+      }
+      <Status message={error} validity={inputValidity} />
+      <div
+        style={{ minHeight: clearence }}
+        className='bg-slate-400 max-w-screen overflow-hidden'
+      >
         <h1 className='text-xl text-center font-semibold pt-12'>
           Icons8 Downloader
         </h1>
         <form
           onSubmit={submitHandler}
-          className='flex flex-col max-w-[50vw] mx-auto mt-10'
+          className='flex flex-col w-full px-5 md:px-0 lg:max-w-[50vw] lg:mx-auto mt-10'
         >
           <label htmlFor='link'>Masukkan Link</label>
           <input
@@ -133,13 +160,14 @@ export default function IconsDownloader() {
               onChange={resetUrl}
               ref={sizeRef}
               type='number'
-              className='outline-none py-1 px-3'
+              className='outline-none py-2 px-3 mt-1'
             />
           </div>
 
           <button
+            disabled={loading}
             onClick={downloadHandler}
-            className='mt-6 bg-orange-500 py-2 font-medium w-full'
+            className='disabled:bg-slate-100 disabled:cursor-not-allowed mt-6 relative bg-orange-500 py-2 font-medium w-full'
           >
             {url === "" && "Hack It!"}
             {url !== "" && "Hack Again!"}
