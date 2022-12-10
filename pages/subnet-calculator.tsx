@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import BackHome from "../core/components/BackHome";
+import Seo from "../core/components/SEO";
 import useMinHeight from "../core/hooks/useMinHeight";
 
 export default function SubnetCalculator() {
@@ -50,56 +51,59 @@ export default function SubnetCalculator() {
     : "bg-red-500 text-slate-100";
 
   return (
-    <div
-      className='bg-yellow-500 flex flex-col items-center pt-20'
-      style={{ minHeight: clearence }}
-    >
-      {status === "on-check" && (
-        <div
-          className={[
-            "absolute top-0 w-full text-center py-1 text-lg font-medium",
-            statusColor,
-          ].join(" ")}
-        >
-          {validity ? "Success" : "Invalid Input"}
+    <>
+      <Seo typeInput='subnet' />
+      <div
+        className='bg-yellow-500 flex flex-col items-center pt-20'
+        style={{ minHeight: clearence }}
+      >
+        {status === "on-check" && (
+          <div
+            className={[
+              "absolute top-0 w-full text-center py-1 text-lg font-medium",
+              statusColor,
+            ].join(" ")}
+          >
+            {validity ? "Success" : "Invalid Input"}
+          </div>
+        )}
+        <h1 className='text-2xl mb-3 font-semibold'>Subnetting Calculator</h1>
+        <form onSubmit={handleSubmit} className='flex flex-col gap-2'>
+          <input
+            onFocus={() => setStatus("idle")}
+            ref={inputRef}
+            type='text'
+            placeholder='198.53.67.0/28'
+            className='outline-none py-1 px-3 text-xl'
+          />
+          <button
+            type='submit'
+            className='bg-amber-700 hover:bg-amber-500 duration-150 font-medium text-lg text-white py-1 px-4'
+          >
+            Calculate
+          </button>
+        </form>
+        <div className='bg-slate-100 shadow-lg flex flex-col gap-1 rounded-md min-w-[40vw] w-fit mt-6 px-6 py-4'>
+          <div className='flex gap-1'>
+            <h3>Subnet Mask Address:</h3>
+            <p>{answer.maskStr}</p>
+          </div>
+          <div className='flex gap-1'>
+            <h3>Subnet Address:</h3>
+            <p>{answer.subnet}</p>
+          </div>
+          <div className='flex gap-1'>
+            <h3>Broadcast Address:</h3>
+            <p>{answer.broadcast}</p>
+          </div>
+          <div className='flex gap-1'>
+            <h3>Jumlah Host Tiap Subnet:</h3>
+            <p>{answer.hostCount}</p>
+          </div>
         </div>
-      )}
-      <h1 className='text-2xl mb-3 font-semibold'>Subnetting Calculator</h1>
-      <form onSubmit={handleSubmit} className='flex flex-col gap-2'>
-        <input
-          onFocus={() => setStatus("idle")}
-          ref={inputRef}
-          type='text'
-          placeholder='198.53.67.0/28'
-          className='outline-none py-1 px-3 text-xl'
-        />
-        <button
-          type='submit'
-          className='bg-amber-700 hover:bg-amber-500 duration-150 font-medium text-lg text-white py-1 px-4'
-        >
-          Calculate
-        </button>
-      </form>
-      <div className='bg-slate-100 shadow-lg flex flex-col gap-1 rounded-md min-w-[40vw] w-fit mt-6 px-6 py-4'>
-        <div className='flex gap-1'>
-          <h3>Subnet Mask Address:</h3>
-          <p>{answer.maskStr}</p>
-        </div>
-        <div className='flex gap-1'>
-          <h3>Subnet Address:</h3>
-          <p>{answer.subnet}</p>
-        </div>
-        <div className='flex gap-1'>
-          <h3>Broadcast Address:</h3>
-          <p>{answer.broadcast}</p>
-        </div>
-        <div className='flex gap-1'>
-          <h3>Jumlah Host Tiap Subnet:</h3>
-          <p>{answer.hostCount}</p>
-        </div>
+        <BackHome />
       </div>
-      <BackHome />
-    </div>
+    </>
   );
 }
 

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import useMinHeight from "../core/hooks/useMinHeight";
 
+import Seo from "../core/components/SEO";
 const data = [
   {
     name: "subnet-calculator",
@@ -23,6 +24,8 @@ export default function Home() {
       style={{ minHeight: clearence }}
       className='bg-yellow-200 flex pt-12 flex-col items-center'
     >
+      <Seo typeInput='home' />
+
       <h1 className='text-2xl font-semibold'>List Aplikasi</h1>
       <table className='mt-6 border-collapse border border-black'>
         <thead className='bg-yellow-400'>
