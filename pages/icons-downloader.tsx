@@ -22,7 +22,7 @@ export default function IconsDownloader() {
 
     const link = linkRef.current!.value;
 
-    if (!validateLink(link)) {
+    if (!validateLink(link) || isSVG) {
       setInputValidity(false);
       return;
     }
