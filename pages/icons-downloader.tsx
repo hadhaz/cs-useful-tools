@@ -22,13 +22,17 @@ export default function IconsDownloader() {
 
     const link = linkRef.current!.value;
 
-    if (!validateLink(link) || isSVG) {
+    if (!validateLink(link)) {
       setInputValidity(false);
+      console.log(
+        'Please fill valid link. Example: "https://icons8.com/icon/63370/bonds"'
+      );
       return;
     }
 
     if (sizeRef.current!.value === "") {
       setInputValidity(false);
+      console.log('Please fill the "size" field.');
       return;
     }
 
@@ -41,8 +45,6 @@ export default function IconsDownloader() {
 
     const svg = data.icon.svg;
     const svgStr = atob(svg);
-
-    // decode base64 to blob
 
     // https://img.icons8.com/plainConverter?fromSite=true&format=png&size=30&id=69880
     const imageResult = await fetch(
@@ -122,20 +124,19 @@ export default function IconsDownloader() {
             <option value='svg'>SVG</option>
           </select>
 
-          {!isSVG && (
-            <div className='flex flex-col'>
-              <label htmlFor='size' className='mt-2'>
-                Pilih Ukuran (px)
-              </label>
-              <input
-                onFocus={resetUrl}
-                onChange={resetUrl}
-                ref={sizeRef}
-                type='number'
-                className='outline-none py-1 px-3'
-              />
-            </div>
-          )}
+          <div className='flex flex-col'>
+            <label htmlFor='size' className='mt-2'>
+              Pilih Ukuran (px)
+            </label>
+            <input
+              onFocus={resetUrl}
+              onChange={resetUrl}
+              ref={sizeRef}
+              type='number'
+              className='outline-none py-1 px-3'
+            />
+          </div>
+
           <button
             onClick={downloadHandler}
             className='mt-6 bg-orange-500 py-2 font-medium w-full'
@@ -174,6 +175,13 @@ function parseLink(link: string) {
 }
 
 function validateLink(link: string) {
-  const regex = /https:\/\/icons8.com\/icon\/\d+\/\w+/;
+  // https://icons8.com/icon/123772/chat-room is valid
+  // https://icons8.com/icon/7csVZvHoQrLW/zoom is also valid
+
+  const regex = new RegExp(
+    "^(https?:\\/\\/)?((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|((\\d{1,3}\\.){3}\\d{1,3}))(:\\d+)?(\\/[-a-z\\d%_.~+]*)*(\\?[;&a-z\\d%_.~+=-]*)?(\\#[-a-z\\d_]*)?$",
+    "i"
+  );
+
   return regex.test(link);
 }
