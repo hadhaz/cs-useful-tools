@@ -3,9 +3,11 @@ import useMinHeight from "../core/hooks/useMinHeight";
 import data from "../core/data/app-list.json";
 
 import Seo from "../core/components/SEO";
+import ContactForm from "../core/components/ContactForm";
 
 export default function Home() {
   const [clearence, upper, lower] = useMinHeight();
+
   return (
     <div
       style={{ minHeight: clearence }}
@@ -38,6 +40,12 @@ export default function Home() {
           ))}
         </tbody>
       </table>
+
+      <div className="lg:w-[40%] w-[80%] mx-auto mt-32 mb-6">
+        <h1 className="text-center text-2xl font-semibold">Any ideas or problem?</h1>
+        <p className="text-sm text-center text-slate-600 mt-1">I will help you solve the common problems, any idea i will consider for next development</p>
+        <ContactForm />
+      </div>
     </div>
   );
 }
