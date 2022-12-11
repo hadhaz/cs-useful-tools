@@ -22,5 +22,11 @@
     "title": "Base64 Decoder",
     "url": "/base64-decoder",
     "id": "BASE641"
+  },
+  {
+    "name": "PDF cleaner",
+    "title": "PDF Cleaner",
+    "url": "/pdf-cleaner",
+    "id": "PDF1"
   }
 ]

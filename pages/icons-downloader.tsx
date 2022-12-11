@@ -3,6 +3,7 @@ import BackHome from "../core/components/BackHome";
 import Status from "../core/components/Status";
 import useMinHeight from "../core/hooks/useMinHeight";
 import { motion } from "framer-motion";
+import Seo from "../core/components/SEO";
 
 export default function IconsDownloader() {
   const [clearence, upper, lower] = useMinHeight();
@@ -103,7 +104,8 @@ export default function IconsDownloader() {
 
   return (
     <>
-      { loading && 
+      <Seo typeInput='icons8-downloader' />
+      {loading && (
         <motion.div
           className='w-44 h-44 border-8 left-1/2 fixed z-50 top-1/2 rounded-full border-dotted border-blue-500'
           animate={{
@@ -115,7 +117,7 @@ export default function IconsDownloader() {
           initial={{ rotate: 0, x: "-50%", y: "-50%" }}
           transition={{ duration: 5, repeat: Infinity }}
         ></motion.div>
-      }
+      )}
       <Status message={error} validity={inputValidity} />
       <div
         style={{ minHeight: clearence }}
@@ -182,14 +184,17 @@ export default function IconsDownloader() {
             </a>
           )}
         </form>
-        <p className='mt-12 text-center'>
-          Don&apos;t using this for commercial, i create it just for educational
-          purpose
-        </p>
-        <div className='flex flex-col items-center mt-24'>
-          <p>You can also check my another apps</p>
-          <BackHome />
-        </div>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ repeat: Infinity, duration: 1 }}
+          className='mt-12 text-center absolute bottom-0 w-full bg-slate-100 py-3'
+        >
+          Alert: Don&apos;t use this commercial, i create it just for
+          educational purpose
+        </motion.p>
+
+        <BackHome />
       </div>
     </>
   );

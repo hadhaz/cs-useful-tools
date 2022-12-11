@@ -26,10 +26,31 @@ const seo = {
     description:
       "useful tools for network engineer, subnet calculator, binary converter, computer network, computer science",
   },
+  "pdf-cleaner": {
+    name: "pdf cleaner tool",
+    title: "PDF Cleaner Tool",
+    url: "/pdf-cleaner",
+    id: "PDF1",
+    keywords: "pdf cleaner tool, pdf cleaner, pdf cleaner",
+    description: "pdf cleaner tool, pdf cleaner, pdf cleaner",
+  },
+  "icons8-downloader": {
+    name: "icons8 downloader",
+    title: "Icons8 Downloader",
+    url: "/icons-downloader",
+    id: "ICONS1",
+    keywords: "icons8 downloader, icons8, downloader",
+    description: "icons8 downloader, icons8, downloader",
+  },
 };
 
 export default function Seo(props: {
-  typeInput: "subnet" | "converter" | "home";
+  typeInput:
+    | "home"
+    | "subnet"
+    | "converter"
+    | "pdf-cleaner"
+    | "icons8-downloader";
 }) {
   return (
     <Head>
